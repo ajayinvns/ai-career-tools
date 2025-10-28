@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI Career Tools — Resume, Interview & ATS Checker</title>
+  <meta name="description" content="Curated list of free/ freemium AI tools for students: resume builders, interview preparation, and ATS trackers." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='%230a0a0a'/%3E%3Ctext x='50' y='58' font-size='56' text-anchor='middle' fill='white' font-family='Arial,Helvetica,sans-serif'%3EAI%3C/text%3E%3C/svg%3E" />
+  <style>
+    :root{
+      --bg:#0b1220;--panel:#0f172a;--muted:#9aa3b2;--text:#e7eefc;--brand:#7c3aed;--brand2:#06b6d4;--ok:#22c55e;--warn:#f97316;
+      --card:#0b1220;--ring:rgba(124,58,237,.4)
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;font:16px/1.5 system-ui,Segoe UI,Roboto,Inter,Arial,sans-serif;color:var(--text);background:radial-gradient(1200px 600px at 20% -10%, rgba(124,58,237,.15), transparent 60%),radial-gradient(1000px 500px at 120% 10%, rgba(6,182,212,.18), transparent 60%), var(--bg)}
+    .container{max-width:1100px;margin:0 auto;padding:24px}
+    header{display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:18px}
+    .title{display:flex;align-items:center;gap:12px}
+    .logo{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(135deg,var(--brand),var(--brand2));box-shadow:0 10px 30px rgba(124,58,237,.35)}
+    h1{font-size:clamp(20px,3vw,28px);margin:0}
+    .subtitle{color:var(--muted);font-size:14px;margin-top:2px}
+
+    .toolbar{display:grid;grid-template-columns:1fr auto;gap:10px;width:100%}
+    .search{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);padding:10px 12px;border-radius:12px}
+    .search input{flex:1;background:transparent;border:0;color:var(--text);outline:none;font-size:15px}
+    .chips{display:flex;flex-wrap:wrap;gap:8px}
+    .chip{padding:8px 12px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);cursor:pointer;user-select:none;font-size:13px}
+    .chip.active{background:linear-gradient(135deg,rgba(124,58,237,.3),rgba(6,182,212,.25));border-color:transparent;box-shadow:0 0 0 2px var(--ring)}
+
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin-top:16px}
+    .card{background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:16px;position:relative;overflow:hidden}
+    .badge{position:absolute;top:10px;right:10px;font-size:12px;padding:4px 8px;border-radius:999px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06);color:var(--muted)}
+    .card h3{margin:6px 0 6px;font-size:18px}
+    .pill{display:inline-block;margin-right:6px;margin-top:6px;padding:4px 8px;border-radius:999px;font-size:12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);color:var(--muted)}
+    .desc{color:#d8def0b8;font-size:14px}
+    .actions{margin-top:12px;display:flex;gap:10px}
+    .btn{flex:1;text-align:center;padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.07);color:var(--text);text-decoration:none;transition:transform .05s ease, background .2s}
+    .btn:hover{transform:translateY(-1px);background:rgba(255,255,255,.1)}
+    .btn.primary{background:linear-gradient(135deg,rgba(124,58,237,.7),rgba(6,182,212,.65));border:none}
+
+    footer{margin:28px 0 8px;color:var(--muted);font-size:12px;text-align:center}
+    .small{font-size:12px;color:var(--muted)}
+
+    .empty{opacity:.7;text-align:center;padding:40px;border:1px dashed rgba(255,255,255,.15);border-radius:16px}
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border-width:0}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="title" role="banner">
+        <div class="logo" aria-hidden="true">💼</div>
+        <div>
+          <h1>AI Career Tools</h1>
+          <div class="subtitle">Hand‑picked tools for <strong>Resume Building</strong>, <strong>Interview Prep</strong>, and <strong>ATS Tracking</strong>.</div>
+        </div>
+      </div>
+      <div class="small">Built for students • Works offline once loaded</div>
+    </header>
+
+    <div class="toolbar" role="region" aria-label="Filters and search">
+      <label class="search" aria-label="Search tools">
+        <span aria-hidden="true">🔎</span>
+        <input id="q" type="search" placeholder="Search tools, e.g., ‘ATS’, ‘mock interview’, ‘resume’" />
+      </label>
+      <div class="chips" id="chips" role="tablist" aria-label="Categories">
+        <!-- chips generated by JS -->
+      </div>
+    </div>
+
+    <div class="grid" id="grid" role="list" aria-live="polite"></div>
+    <div id="empty" class="empty" hidden>No tools match your search. Try other keywords or clear filters.</div>
+
+    <footer>
+      <p class="small">Note: Many tools are <em>free with limits</em> (freemium). Always review privacy & terms before uploading personal data.</p>
+      <p class="small">Made with ❤️ for students. You can edit this page to add, remove, or update tools.</p>
+    </footer>
+  </div>
+
+<script>
+// ======= 1) Data: Edit this list to customize =======
+const TOOLS = [
+  // --- Resume Builders ---
+  {name:"Resume.com", url:"https://www.resume.com/", category:"Resume Builder", free:"Free", tags:["templates","PDF"], description:"Simple resume builder with templates and exports.", icon:"📄"},
+  {name:"Teal Resume Builder", url:"https://www.tealhq.com/resume-builder", category:"Resume Builder", free:"Free plan", tags:["templates","resume score"], description:"Drag‑and‑drop sections, keyword suggestions, versioning.", icon:"🧰"},
+  {name:"Wonsulting ResumAI", url:"https://resumai.wonsulting.com/", category:"Resume Builder", free:"Free plan", tags:["AI bullets","achievements"], description:"AI‑assisted bullet points and accomplishment phrasing.", icon:"✨"},
+  {name:"Canva (Free)", url:"https://www.canva.com/resumes/templates/", category:"Resume Builder", free:"Free tier", tags:["design","templates"], description:"Designer‑friendly templates; export to PDF.", icon:"🎨"},
+
+  // --- Interview Prep ---
+  {name:"Google Interview Warmup", url:"https://grow.google/certificates/interview-warmup/", category:"Interview Prep", free:"Free", tags:["mock interview","transcripts"], description:"Practice with AI prompts; instant feedback on answers.", icon:"🎤"},
+  {name:"Pramp", url:"https://www.pramp.com/", category:"Interview Prep", free:"Free", tags:["peer mock","tech"], description:"Live peer‑to‑peer mock interviews for tech roles.", icon:"👥"},
+  {name:"InterviewBit", url:"https://www.interviewbit.com/", category:"Interview Prep", free:"Free", tags:["DSA","practice"], description:"Structured practice and interview questions for tech.", icon:"🧩"},
+  {name:"Big Interview (Free lessons)", url:"https://biginterview.com/", category:"Interview Prep", free:"Free lessons", tags:["behavioral","STAR"], description:"Videos + practice; paid simulator available.", icon:"🎯"},
+
+  // --- ATS Trackers / Resume Scanners ---
+  {name:"ResyMatch.io", url:"https://www.resymatch.io/", category:"ATS Tracker", free:"Free", tags:["keyword match","score"], description:"Upload job description + resume to get keyword match score.", icon:"📊"},
+  {name:"Jobscan (Free credits)", url:"https://www.jobscan.co/", category:"ATS Tracker", free:"Freemium", tags:["ATS","keywords"], description:"Widely used ATS checker; limited free scans.", icon:"🔍"},
+  {name:"Skillsyncer", url:"https://skillsyncer.com/", category:"ATS Tracker", free:"Free plan", tags:["score","keywords"], description:"Match rate, missing skills, resume targeting tips.", icon:"🧠"}
+];
+
+const CATEGORIES = ["All","Resume Builder","Interview Prep","ATS Tracker"];
+
+// ======= 2) Render =======
+const grid = document.getElementById('grid');
+const empty = document.getElementById('empty');
+const chips = document.getElementById('chips');
+const q = document.getElementById('q');
+let activeCat = 'All';
+
+function renderChips(){
+  chips.innerHTML = '';
+  CATEGORIES.forEach(cat=>{
+    const b = document.createElement('button');
+    b.className = 'chip' + (cat===activeCat?' active':'');
+    b.setAttribute('role','tab'); b.setAttribute('aria-selected',cat===activeCat);
+    b.textContent = cat;
+    b.onclick = ()=>{ activeCat = cat; render(); };
+    chips.appendChild(b);
+  })
+}
+
+function matches(t, term){
+  return (t.name+" "+t.description+" "+t.tags.join(' ')+" "+t.category).toLowerCase().includes(term)
+}
+
+function render(){
+  renderChips();
+  const term = q.value.trim().toLowerCase();
+  const filtered = TOOLS.filter(t => (activeCat==='All' || t.category===activeCat) && (term? matches(t,term) : true));
+  grid.innerHTML = '';
+  if(!filtered.length){ empty.hidden = false; return }
+  empty.hidden = true;
+  filtered.forEach(t=>{
+    const card = document.createElement('article');
+    card.className = 'card';
+    card.setAttribute('role','listitem');
+    card.innerHTML = `
+      <div class="badge" aria-label="Category">${t.category}</div>
+      <div style="font-size:28px" aria-hidden="true">${t.icon || '🛠️'}</div>
+      <h3>${t.name}</h3>
+      <p class="desc">${t.description}</p>
+      <div>
+        ${(t.tags||[]).map(tag=>`<span class="pill">${tag}</span>`).join('')}
+        <span class="pill" title="Pricing model">${t.free}</span>
+      </div>
+      <div class="actions">
+        <a class="btn primary" href="${t.url}" target="_blank" rel="noopener">Try ${t.name}</a>
+        <button class="btn" aria-label="Copy link" onclick="navigator.clipboard.writeText('${t.url}').then(()=>this.textContent='Copied!');">Copy link</button>
+      </div>`;
+    grid.appendChild(card);
+  })
+}
+
+q.addEventListener('input', render);
+render();
+
+// ======= 3) Minimal analytics (optional, privacy-safe) =======
+// Commented out. If hosting publicly, consider adding Plausible/Umami or GA4 responsibly.
+// (function(){ /* analytics snippet here */ })()
+</script>
+</body>
+</html>
